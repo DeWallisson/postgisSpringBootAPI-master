@@ -48,6 +48,6 @@ Abaixo estão listadas as principais rotas disponíveis na aplicação:
 1. Certifique-se de ter o **PostgreSQL com PostGIS** instalado e configurado na sua máquina.
 2. Importe os dados espaciais (IBGE) para o seu banco de dados.
 3. Configure as credenciais de acesso ao banco no arquivo `src/main/resources/application.properties`.
-4. Execute o projeto a partir da sua IDE ou via terminal com:
+4. Execute o projeto a partir da sua IDE ou direto no Browser:
    ```bash
-   ./mvnw spring-boot:run
+   http://localhost:8080/swagger-ui/index.html
