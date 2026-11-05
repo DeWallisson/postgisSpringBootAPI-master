@@ -29,7 +29,7 @@ Abaixo estão listadas as principais rotas disponíveis na aplicação:
 * `GET /portosPorUf/{sigla}`
 * `GET /portosPorNomeContendo/{nome}`
 * `GET /portosPorNomeEstado/{nomeEstado}`
-### Exemplos:
+### Exemplos (URLs Funcionais):
 * `http://localhost:8080/municipiosVizinhos/Campina Grande`
 * `http://localhost:8080/distanciaEntreMunicipios/Campina Grande/João Pessoa`
 * `http://localhost:8080/municipiosPorUf/PB`
@@ -43,7 +43,7 @@ Abaixo estão listadas as principais rotas disponíveis na aplicação:
 * `http://localhost:8080/portosPorNomeContendo/Rio`
 * `http://localhost:8080/portosPorNomeEstado/Rio Grande do Sul`
 
-## Como Executar
+## Como Executar:
 
 1. Certifique-se de ter o **PostgreSQL com PostGIS** instalado e configurado na sua máquina.
 2. Importe os dados espaciais (IBGE) para o seu banco de dados.
