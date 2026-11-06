@@ -22,19 +22,19 @@ public interface MunicipioRepository extends JpaRepository<Municipio, Integer>{
     @Query(value ="select distance(geography(ma.geometria), geography(mb.geometria)) from Municipio ma, Municipio mb where ma.nome = :municipioA  and   mb.nome = :municipioB")
     public Double distanciaEntreMunicipios(String municipioA, String municipioB);
 
-        // 1. Listar municípios por Estado (UF)
+    // listar municípios por Estado
     @Query(value = "select new br.com.example.model.MunicipioVO(ab.codigo, ab.nome, ab.geometria) from Municipio ab where ab.sigla = :sigla")
     List<MunicipioVO> listarMunicipiosPorUf(String sigla);
 
-    // 2. Listar municípios com área maior que um determinado valor (em km²)
+    // listar municípios com área maior que um determinado valor em km²
     @Query(value = "select new br.com.example.model.MunicipioVO(ab.codigo, ab.nome, ab.geometria) from Municipio ab where ab.areaKm2 > :area")
     List<MunicipioVO> listarMunicipiosPorAreaMaiorQue(Double area);
 
-    // 3. Listar municípios dentro de um raio de distância (em metros) a partir de um município de referência
+    // listar municípios dentro de um raio de distância em metros a partir de um município de referência
     @Query(value = "select new br.com.example.model.MunicipioVO(ab.codigo, ab.nome, ab.geometria) " + "from Municipio ma, Municipio ab " + "where ma.nome = :nome " + "and function('ST_DWithin', ma.geometria, ab.geometria, :raio) = true " + "and ma.nome <> ab.nome") 
     List<MunicipioVO> listarMunicipiosEmRaio(String nome, Double raio);
 
-    // 4. Buscar municípios cujo nome contenha um termo específico (busca parcial)
+    // buscar municípios cujo nome contenha um termo específico
     @Query(value = "select new br.com.example.model.MunicipioVO(ab.codigo, ab.nome, ab.geometria) from Municipio ab where lower(ab.nome) like lower(concat('%', :nome, '%'))")
     List<MunicipioVO> listarMunicipiosPorNomeContendo(String nome);
 }
