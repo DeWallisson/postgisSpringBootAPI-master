@@ -21,14 +21,15 @@ Abaixo estão listadas as principais rotas disponíveis na aplicação:
 * `GET /municipiosPorNomeContendo/{nome}`
 
 ### Ferrovias
-* `GET /ferroviasPorOperadora/{operadora}`
-* `GET /ferroviasPorNomeContendo/{nome}`
+* `GET /ferrovias/municipio/{nome}`
+* `GET /ferrovias/proximas-porto/{municipioPorto}/{raio}`
 * `GET /ferroviasOrdenadas`
 
 ### Portos
-* `GET /portosPorUf/{sigla}`
+* `GET /portos/raio/{lon}/{lat}/{raio}`
 * `GET /portosPorNomeContendo/{nome}`
-* `GET /portosPorNomeEstado/{nomeEstado}`
+* `GET /portos/municipio/{nome}`
+
 ### Exemplos (URLs Funcionais):
 * `http://localhost:8080/municipiosVizinhos/Campina Grande`
 * `http://localhost:8080/distanciaEntreMunicipios/Campina Grande/João Pessoa`
@@ -36,12 +37,12 @@ Abaixo estão listadas as principais rotas disponíveis na aplicação:
 * `http://localhost:8080/municipiosPorAreaMaiorQue/50000`
 * `http://localhost:8080/municipiosEmRaio/Campina Grande/500`
 * `http://localhost:8080/municipiosPorNomeContendo/João`
-* `http://localhost:8080/ferroviasPorOperadora/MMX Logística`
-* `http://localhost:8080/ferroviasPorNomeContendo/Serra`
+* `http://localhost:8080/ferrovias/municipio/Campinas`
+* `http://localhost:8080/ferrovias/proximas-porto/Santos/20000`
 * `http://localhost:8080/ferroviasOrdenadas`
-* `http://localhost:8080/portosPorUf/RS`
+* `http://localhost:8080/portos/raio/-43.1729/-22.9068/50000`
 * `http://localhost:8080/portosPorNomeContendo/Rio`
-* `http://localhost:8080/portosPorNomeEstado/Rio Grande do Sul`
+* `http://localhost:8080/portos/municipio/Rio de Janeiro`
 
 ## Como Executar:
 
