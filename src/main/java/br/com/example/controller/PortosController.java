@@ -19,18 +19,18 @@ public class PortosController {
     @Autowired
     private PortosRepository repository;
 
-    @GetMapping("/portosPorUf/{sigla}")
-    public List<PortosVO> portosPorUf(@PathVariable String sigla) {
-        return repository.listarPortosPorUf(sigla);
-    }
+   @GetMapping("/raio/{lon}/{lat}/{raio}")
+   public List<PortosVO> listarPortosNoRaio(@PathVariable Double lon, @PathVariable Double lat, @PathVariable Double raio) {
+       return portosRepository.listarPortosNoRaioDePonto(lon, lat, raio);
+   }
+
+   @GetMapping("/municipio/{nome}")
+   public List<PortosVO> listarPortosPorMunicipio(@PathVariable String nome) {
+       return portosRepository.listarPortosPorNomeMunicipio(nome);
+   }  
 
     @GetMapping("/portosPorNomeContendo/{nome}")
     public List<PortosVO> portosPorNomeContendo(@PathVariable String nome) {
         return repository.listarPortosPorNomeContendo(nome);
-    }
-
-    @GetMapping("/portosPorNomeEstado/{nomeEstado}")
-    public List<PortosVO> portosPorNomeEstado(@PathVariable String nomeEstado) {
-        return repository.listarPortosPorNomeEstado(nomeEstado);
     }
 }
