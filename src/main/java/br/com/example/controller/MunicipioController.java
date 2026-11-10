@@ -17,41 +17,25 @@ import org.springframework.web.bind.annotation.RestController;
 public class MunicipioController {
     
     @Autowired
-    private MunicipioRepository repository;
-     
-    @GetMapping("/municipiosVizinhos/{nome}")
-    public List<MunicipioVO> municipiosVizinhos(@PathVariable String nome){
-        List<MunicipioVO> result = repository.listarMunicipiosVizinhos(nome);
-        return result;
-    }
-   
-    @GetMapping("/distanciaEntreMunicipios/{municipioA}/{municipioB}")
-     public Double distanciaEntreMunicipios(@PathVariable String municipioA, @PathVariable String municipioB){
-        double result = repository.distanciaEntreMunicipios(municipioA, municipioB);
-        return result;
-    }    
+    private MunicipioRepository repository;   
     
-    @GetMapping("/municipiosPorUf/{sigla}")
-    public List<MunicipioVO> municipiosPorUf(@PathVariable String sigla) {
-        List<MunicipioVO> result = repository.listarMunicipiosPorUf(sigla);
-        return result;
+    @GetMapping("/municipiosQueSobrepoemOutro/{nome}")
+    public List<MunicipioVO> listarMunicipiosQueSobrepoem(@PathVariable String nome) {
+        return repository.listarMunicipiosQueSobrepoem(nome).stream().map(m -> new MunicipioVO(m.getCodigo(), m.getNome(), m.getGeometria())).toList();
     }
 
-    @GetMapping("/municipiosPorAreaMaiorQue/{area}")
-    public List<MunicipioVO> municipiosPorAreaMaiorQue(@PathVariable Double area) {
-        List<MunicipioVO> result = repository.listarMunicipiosPorAreaMaiorQue(area);
-        return result;
+    @GetMapping("/municipiosQueCruzamOutro/{nome}")
+    public List<MunicipioVO> listarMunicipiosQueCruzam(@PathVariable String nome) {
+        return repository.listarMunicipiosQueCruzam(nome).stream().map(m -> new MunicipioVO(m.getCodigo(), m.getNome(), m.getGeometria())).toList();
     }
 
-    @GetMapping("/municipiosEmRaio/{nome}/{raio}")
-    public List<MunicipioVO> municipiosEmRaio(@PathVariable String nome, @PathVariable Double raio) {
-        List<MunicipioVO> result = repository.listarMunicipiosEmRaio(nome, raio);
-        return result;
+    @GetMapping("/municipiosQueNaoSeInterceptam/{nome}")
+    public List<MunicipioVO> listarMunicipiosDisjuntos(@PathVariable String nome) {
+        return repository.listarMunicipiosDisjuntos(nome).stream().map(m -> new MunicipioVO(m.getCodigo(), m.getNome(), m.getGeometria())).toList();
     }
 
-    @GetMapping("/municipiosPorNomeContendo/{nome}")
-    public List<MunicipioVO> municipiosPorNomeContendo(@PathVariable String nome) {
-        List<MunicipioVO> result = repository.listarMunicipiosPorNomeContendo(nome);
-        return result;
+    @GetMapping("/municipiosCobrem/{nome}")
+    public List<MunicipioVO> listarMunicipiosQueCoverem(@PathVariable String nome) {
+        return repository.listarMunicipiosQueCoverem(nome).stream().map(m -> new MunicipioVO(m.getCodigo(), m.getNome(), m.getGeometria())).toList();
     }
 }

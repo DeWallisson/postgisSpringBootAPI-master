@@ -19,16 +19,14 @@ public class FerroviaController {
     @Autowired
     private FerroviaRepository repository;
 
-    @GetMapping("/ferroviasPorOperadora/{operadora}")
-    public List<FerroviaVO> ferroviasPorOperadora(@PathVariable String operadora) {
-        List<FerroviaVO> result = repository.listarFerroviasPorOperadora(operadora);
-        return result;
+    @GetMapping("/municipio/{nome}")
+    public List<FerroviaVO> listarFerroviasPorMunicipio(@PathVariable String nome) {
+        return repository.listarFerroviasPorMunicipio(nome);
     }
 
-    @GetMapping("/ferroviasPorNomeContendo/{nome}")
-    public List<FerroviaVO> ferroviasPorNomeContendo(@PathVariable String nome) {
-        List<FerroviaVO> result = repository.listarFerroviasPorNomeContendo(nome);
-        return result;
+    @GetMapping("/proximas-porto/{municipioPorto}/{raio}")
+    public List<FerroviaVO> listarFerroviasProximasAoPorto(@PathVariable String municipioPorto, @PathVariable Double raio) {
+        return repository.listarFerroviasProximasAoPorto(municipioPorto, raio);
     }
 
     @GetMapping("/ferroviasOrdenadas")

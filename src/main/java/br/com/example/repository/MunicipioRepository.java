@@ -15,26 +15,20 @@ import org.springframework.data.jpa.repository.Query;
  * @author caian
  */
 public interface MunicipioRepository extends JpaRepository<Municipio, Integer>{
-    
-    @Query(value = "select new br.com.example.model.MunicipioVO(mb.codigo,mb.nome,mb.geometria) from Municipio ma, Municipio mb where touches(ma.geometria, mb.geometria) = true and ma.nome = :nome")
-    List<MunicipioVO> listarMunicipiosVizinhos(String nome);
-     
-    @Query(value ="select distance(geography(ma.geometria), geography(mb.geometria)) from Municipio ma, Municipio mb where ma.nome = :municipioA  and   mb.nome = :municipioB")
-    public Double distanciaEntreMunicipios(String municipioA, String municipioB);
 
-        // 1. Listar municípios por Estado (UF)
-    @Query(value = "select new br.com.example.model.MunicipioVO(ab.codigo, ab.nome, ab.geometria) from Municipio ab where ab.sigla = :sigla")
-    List<MunicipioVO> listarMunicipiosPorUf(String sigla);
+    // 1. Listar todos os municípios que se sobrepõem à referência
+    @Query(value = "SELECT m.* FROM br_municipios_2025 m, br_municipios_2025 ref WHERE ref.nm_mun = ?1 AND ST_Overlaps(m.geom, ref.geom) = true", nativeQuery = true)
+    List<Municipio> listarMunicipiosQueSobrepoem(String nomeMunicipioRef);
 
-    // 2. Listar municípios com área maior que um determinado valor (em km²)
-    @Query(value = "select new br.com.example.model.MunicipioVO(ab.codigo, ab.nome, ab.geometria) from Municipio ab where ab.areaKm2 > :area")
-    List<MunicipioVO> listarMunicipiosPorAreaMaiorQue(Double area);
+    // 2. Listar todos os municípios cujas fronteiras cruzam com a referência
+    @Query(value = "SELECT m.* FROM br_municipios_2025 m, br_municipios_2025 ref WHERE ref.nm_mun = ?1 AND ST_Crosses(m.geom, ref.geom) = true", nativeQuery = true)
+    List<Municipio> listarMunicipiosQueCruzam(String nomeMunicipioRef);
 
-    // 3. Listar municípios dentro de um raio de distância (em metros) a partir de um município de referência
-    @Query(value = "select new br.com.example.model.MunicipioVO(ab.codigo, ab.nome, ab.geometria) " + "from Municipio ma, Municipio ab " + "where ma.nome = :nome " + "and function('ST_DWithin', ma.geometria, ab.geometria, :raio) = true " + "and ma.nome <> ab.nome") 
-    List<MunicipioVO> listarMunicipiosEmRaio(String nome, Double raio);
+    // 3. Listar todos os municípios disjuntos da referência
+    @Query(value = "SELECT m.* FROM br_municipios_2025 m, br_municipios_2025 ref WHERE ref.nm_mun = ?1 AND ST_Disjoint(m.geom, ref.geom) = true", nativeQuery = true)
+    List<Municipio> listarMunicipiosDisjuntos(String nomeMunicipioRef);
 
-    // 4. Buscar municípios cujo nome contenha um termo específico (busca parcial)
-    @Query(value = "select new br.com.example.model.MunicipioVO(ab.codigo, ab.nome, ab.geometria) from Municipio ab where lower(ab.nome) like lower(concat('%', :nome, '%'))")
-    List<MunicipioVO> listarMunicipiosPorNomeContendo(String nome);
+    // 4. Listar todos os municípios que cobrem a referência
+    @Query(value = "SELECT m.* FROM br_municipios_2025 m, br_municipios_2025 ref WHERE ref.nm_mun = ?1 AND ST_Covers(m.geom, ref.geom) = true", nativeQuery = true)
+    List<Municipio> listarMunicipiosQueCoverem(String nomeMunicipioRef);
 }
