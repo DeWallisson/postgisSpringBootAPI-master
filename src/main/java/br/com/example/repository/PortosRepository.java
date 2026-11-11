@@ -3,6 +3,7 @@ package br.com.example.repository;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import br.com.example.model.Portos;
 import br.com.example.model.PortosVO;
@@ -19,7 +20,7 @@ public interface PortosRepository extends JpaRepository<Portos, Integer> {
     List<PortosVO> listarPortosPorNomeMunicipio(String nomeMunicipio);
 
     // Listar portos na coordenada exata
-    @Query(value = "SELECT new br.com.example.model.PortosVO(p.codMun, p.municipio, p.uf, p.nomeUf, p.geometria) " + "FROM Portos p " + "WHERE ST_Equals(p.geometria, ST_Point(?1, ?2)) = true")
-    List<PortosVO> listarPortosExatos(double longitude, double latitude);
+    @Query(value = "SELECT new br.com.example.model.PortosVO(p.codMun, p.municipio, p.uf, p.nomeUf, p.geometria) " + "FROM Portos p " + "WHERE function('ST_Intersects', p.geometria, function('ST_GeomFromText', :wktPoint, 4326)) = true")
+    List<PortosVO> listarPortosExatosWkt(@Param("wktPoint") String wktPoint);
     
 }

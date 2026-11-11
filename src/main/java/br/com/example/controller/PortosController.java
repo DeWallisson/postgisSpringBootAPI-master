@@ -30,7 +30,7 @@ public class PortosController {
     }
 
     @GetMapping("/PortosNaCordenadaExata/{longitude}/{latitude}")
-    public List<PortosVO> listarPortosExatos(@PathVariable double longitude, @PathVariable double latitude) {
-        return repository.listarPortosExatos(longitude, latitude);
+    public List<PortosVO> listarPortosExatos(@PathVariable double longitude, @PathVariable double latitude) { String wktPoint = "POINT(" + longitude + " " + latitude + ")";
+        return repository.listarPortosExatosWkt(wktPoint);
     }
 }
